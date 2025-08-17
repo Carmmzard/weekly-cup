@@ -1,0 +1,197 @@
+body {
+    margin: 0;
+    background: #121212;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: white;
+    font-weight: bold;
+}
+
+.App {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1.main-title {
+    text-align: center;
+    color: white;
+    font-weight: normal;
+    font-family: 'Krona One', sans-serif;
+    font-size: 35px;
+}
+
+.tournament-table {
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 20px;
+    padding: 0;
+}
+
+.table-header {
+    display: grid;
+    padding: 15px;
+    color: #888;
+    margin-bottom: 15px;
+    font-weight: 500;
+    font-family: 'Readex Pro', sans-serif;
+    font-size: 20px;
+}
+
+.default-header {
+    grid-template-columns: 1fr;
+}
+
+.family-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #1e1e1e;
+    border-radius: 16px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.family-row:last-child {
+    margin-bottom: 0;
+}
+
+.family-color {
+    text-align: right;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-family: 'Comfortaa', cursive;
+    font-weight: 500;
+    padding-right: 15px;
+}
+
+.family-name {
+    color: #FFFFFF;
+    font-size: 20px;
+    font-family: 'Comfortaa', cursive;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.headeramount1, .headeramount2 {
+    color: #9C9C9C;
+    font-size: 20px;
+    font-family: 'Readex Pro', sans-serif;
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.currency {
+    font-size: 20px;
+    color: #69F129;
+    font-family: 'Readex Pro', sans-serif;
+    font-weight: 500;
+    margin-left: 6px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.add-form {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+input, textarea {
+    padding: 8px;
+    background: #333;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+button {
+    padding: 5px 10px;
+    background: #333;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #444;
+}
+
+.bulk-add {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.bulk-add textarea {
+    flex: 1;
+    min-height: 100px;
+}
+
+.bulk-add-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.logo {
+    width: 230px;
+    height: 45px;
+}
+
+.screenshot-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -30px;
+    padding: 20px;
+}
+
+.screenshot-button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.screenshot-button-container button:hover {
+    background: #444;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    background: #0a377e;
+    margin: 0;
+}
+
+.default-header-team {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.default-header-amount {
+    text-align: right;
+    padding-right: 15px;
+} 
