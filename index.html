@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WEEKLY CUP</title>
+    <link rel="stylesheet" href="src/family-tournament.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Readex+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Allerta&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="root"></div>
+    
+    <!-- Загружаем скрипты в правильном порядке -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script type="text/babel">
+        function App() {
+            const [families, setFamilies] = React.useState([]);
+            const [showBulkAdd, setShowBulkAdd] = React.useState(false);
+            const [newFamily, setNewFamily] = React.useState({
+                name: '',
+            });
+            const [bulkNames, setBulkNames] = React.useState('');
+
+            const addFamily = (e) => {
+                e.preventDefault();
+                if (newFamily.name) {
+                    setFamilies([...families, {
+                        name: newFamily.name,
+                        id: Date.now()
+                    }]);
+                    setNewFamily({
+                        name: ''
+                    });
+                }
+            };
+
+            const handleBulkAdd = () => {
+                const names = bulkNames.split('\n').filter(n => n.trim());
+
+                const newFamilies = names.map((name, index) => ({
+                    id: Date.now() + index,
+                    name: name.trim()
+                }));
+
+                setFamilies([...families, ...newFamilies]);
+                setBulkNames('');
+                setShowBulkAdd(false);
+            };
+
+            const clearAllFamilies = () => {
+                setFamilies([]);
+            };
+
+            const takeScreenshot = async () => {
+                const element = document.querySelector('.App');
+                try {
+                    await new Promise((resolve) => {
+                        const img = element.querySelector('.logo');
+                        if (img.complete) {
+                            resolve();
+                        } else {
+                            img.onload = resolve;
+                        }
+                    });
+
+                    const canvas = await html2canvas(element, {
+                        backgroundColor: '#121212',
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        ignoreElements: (element) => {
+                            return element.className === 'add-form' ||
+                                   element.className === 'bulk-add' ||
+                                   element.className === 'screenshot-button-container';
+                        }
+                    });
+
+                    canvas.toBlob(async (blob) => {
+                        try {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({
+                                    'image/png': blob
+                                })
+                            ]);
+                            alert('Скриншот сделан, можно добавлять!');
+                        } catch (err) {
+                            console.error('Ошибка при копировании в буфер обмена:', err);
+                            alert('Не удалось скопировать скриншот в буфер обмена');
+                        }
+                    }, 'image/png');
+                } catch (err) {
+                    console.error('Ошибка при создании скриншота:', err);
+                    alert('Не удалось создать скриншот');
+                }
+            };
+
+            return (
+                <div className="App">
+                    <h1 className="main-title">WEEKLY CUP</h1>
+
+                    <div className="tournament-table">
+                        <div className="table-header default-header">
+                            <div className="headeramount1 default-header-team">Команда</div>
+                        </div>
+                        
+                        {families.map(family => (
+                            <div key={family.id} className="family-row">
+                                <div className="family-name">
+                                    {family.name}
+                                </div>
+
+                            </div>
+                        ))}
+                    </div>
+                
+                    <div className="logo-container">
+                        <img src="src/logo.svg" alt="Majestic Logo" className="logo" crossOrigin="anonymous" />
+                    </div>
+                    
+                    <div className="screenshot-button-container">
+                        <button onClick={takeScreenshot}>Сделать скриншот</button>
+                    </div>
+
+                    {!showBulkAdd ? (
+                        <form className="add-form" onSubmit={addFamily}>
+                            <input 
+                                placeholder="Семья" 
+                                value={newFamily.name} 
+                                onChange={e => setNewFamily({
+                                    ...newFamily,
+                                    name: e.target.value
+                                })} 
+                            />
+                            <button type="submit">Добавить</button>
+                            <button type="button" onClick={() => setShowBulkAdd(true)}>
+                                Массовое добавление
+                            </button>
+                            <button type="button" onClick={clearAllFamilies}>
+                                Массовое удаление
+                            </button>
+                        </form>
+                    ) : (
+                        <div className="bulk-add">
+                            <textarea 
+                                placeholder="Имена семей (каждое с новой строки)" 
+                                value={bulkNames} 
+                                onChange={e => setBulkNames(e.target.value)} 
+                            />
+                            <div className="bulk-add-buttons">
+                                <button onClick={handleBulkAdd}>Добавить семьи</button>
+                                <button onClick={() => setShowBulkAdd(false)}>Отмена</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        try {
+            ReactDOM.render(<App />, document.getElementById('root'));
+        } catch (error) {
+            console.error('Ошибка при рендеринге:', error);
+        }
+    </script>
+</body>
+</html> 
